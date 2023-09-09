@@ -73,7 +73,8 @@ export const SignIn = () => {
           </button>
         </form>
         <p className={"text-center mb-2 mt-8 text-gray-400 "}>
-          Don't have an account? <Link className={`text-text`} href={"/signup"}>
+          Don't have an account?{" "}
+          <Link className={`text-text`} href={"/signup"}>
             Sign up
           </Link>
         </p>

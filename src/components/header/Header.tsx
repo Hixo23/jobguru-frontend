@@ -6,10 +6,14 @@ export const Header = () => {
       <Link className="font-bold text-2xl" href={"/"}>
         Jobguru
       </Link>
-        <nav className='flex gap-4'>
-            <Link className={'nav-item'} href='/signin'>Sign in</Link>
-            <Link className={'nav-item'} href='/signup'>Sign up</Link>
-        </nav>
+      <nav className="flex gap-4">
+        <Link className={"nav-item"} href="/signin">
+          Sign in
+        </Link>
+        <Link className={"nav-item"} href="/signup">
+          Sign up
+        </Link>
+      </nav>
     </header>
   );
 };
