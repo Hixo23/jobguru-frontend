@@ -22,7 +22,7 @@ export const offerExamples: SingleOfferType[] = [
     company: "OGDEVS123",
     skills: ["js", "ts", "mongodb"],
     salary: "20000",
-    description: "typescript developer asap",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin maximus mattis velit, in ultricies ex convallis at. Curabitur luctus porta aliquam. Quisque sagittis magna id diam euismod, quis pretium turpis dignissim. Sed purus risus, sollicitudin porta risus dictum, tempus cursus tellus. Maecenas a velit eu velit hendrerit vehicula. Sed faucibus, urna non tincidunt imperdiet, nulla dolor placerat leo, sed consectetur nisl felis ac nisi. Proin maximus sapien nec enim iaculis, a vulputate sem accumsan. Donec volutpat, augue condimentum sollicitudin sodales, orci ante aliquet nisi, vitae auctor dolor eros id nibh. Fusce venenatis nisi vitae volutpat condimentum. Integer sagittis hendrerit ante id pharetra. Suspendisse egestas scelerisque mi, non condimentum sapien malesuada id. In eleifend quis tellus a volutpat. Etiam vel ultrices lorem. Duis facilisis bibendum erat vel ultrices. Vivamus interdum dapibus velit a viverra. Mauris velit nunc, iaculis et fringilla bibendum, auctor eget leo. ",
   },
   {
     id: 3,
