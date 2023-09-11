@@ -1,5 +1,8 @@
-import { ElementRef, useRef } from "react";
-
+"use client";
+import { ElementRef, useEffect, useRef } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 export const NewOfferModal = ({
   isOpen,
   setIsOpen,
@@ -8,16 +11,74 @@ export const NewOfferModal = ({
   setIsOpen: (value: boolean) => void;
 }) => {
   const modalRef = useRef<ElementRef<"dialog"> | null>(null);
-  const closeMenu = (e: MouseEvent) => {
-    const eventTarget = e.target as Node;
+  useEffect(() => {
+    const closeMenu = (e: MouseEvent) => {
+      const eventTarget = e.target as Node;
 
-    console.log(modalRef.current?.contains(eventTarget));
+      if (modalRef.current && isOpen && !modalRef.current.contains(eventTarget))
+        return setIsOpen(false);
+    };
 
-    if (modalRef.current && isOpen && !modalRef.current.contains(eventTarget))
-      return setIsOpen(false);
+    document.addEventListener("mousedown", closeMenu);
+
+    return () => document.removeEventListener("mousedown", closeMenu);
+  }, [isOpen, setIsOpen]);
+
+  type ValidationSchema = {
+    userID: number;
+    title: string;
+    company: string;
+    skills: string;
+    salary: number;
+    description: string;
+    currency: string;
+    date: string;
+    location: string;
   };
 
-  document.addEventListener("mousedown", closeMenu);
+  const validationSchema = z.object({
+    title: z.string().min(5, { message: "Title is required" }),
+    company: z.string().min(1, { message: "Company is required" }),
+    skills: z.string().min(1, { message: "Skills is required" }),
+    salary: z.string().min(1, { message: "Salary is required" }),
+    description: z
+      .string()
+      .min(10, { message: "Description must be at least 10 characters long" }),
+    currency: z.string().min(1, { message: "Currency is required" }),
+    location: z.string().min(2, { message: "Location is required" }),
+  });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<ValidationSchema>({
+    resolver: zodResolver<any>(validationSchema),
+  });
+
+  const onSubmit = async (data: ValidationSchema) => {
+    const response = await fetch("http://localhost:3000/jobs", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      mode: "cors",
+      body: JSON.stringify({
+        user_id: Math.floor(Math.random() * 100000),
+        title: data.title,
+        company: data.company,
+        description: data.description,
+        skills: data.skills.split(" "),
+        salary: +data.salary,
+        currency: data.currency,
+        location: data.location,
+      }),
+    }).then((res) => res.json());
+    reset();
+    setIsOpen(false);
+    console.log(response);
+  };
 
   return (
     <>
@@ -35,51 +96,86 @@ export const NewOfferModal = ({
             }
           >
             <p className={"text-xl font-bold"}>Add new job offer!</p>
-            <form className={"flex flex-col gap-4 pb-4"}>
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className={"flex flex-col gap-4 pb-4"}
+            >
               <div className="flex flex-col gap-2 text-gray-400">
-                <label htmlFor="email">Title</label>
+                <label htmlFor="title">Title</label>
                 <input
-                  id="email"
+                  id="title"
                   className="form-input"
-                  placeholder="Type your email address"
-                  type="email"
+                  placeholder="Type title of offer"
+                  type="text"
+                  {...register("title")}
                 />
+                <span>{errors.title?.message}</span>
               </div>
               <div className="flex flex-col gap-2 text-gray-400">
-                <label htmlFor="email">Description</label>
-                <input
-                  id="email"
+                <label htmlFor="description">Description</label>
+                <textarea
+                  id="description"
                   className="form-input"
-                  placeholder="Type your email address"
-                  type="email"
+                  placeholder="Type description of offer"
+                  {...register("description")}
                 />
+                <span>{errors.description?.message}</span>
               </div>
               <div className="flex flex-col gap-2 text-gray-400">
-                <label htmlFor="email">Company</label>
+                <label htmlFor="company">Company</label>
                 <input
-                  id="email"
+                  id="company"
                   className="form-input"
-                  placeholder="Type your email address"
-                  type="email"
+                  placeholder="Type your company name"
+                  type="text"
+                  {...register("company")}
                 />
+                <span>{errors.company?.message}</span>
               </div>
               <div className="flex flex-col gap-2 text-gray-400">
-                <label htmlFor="email">Salary</label>
+                <label htmlFor="salary">Salary</label>
                 <input
-                  id="email"
+                  id="salary"
                   className="form-input"
-                  placeholder="Type your email address"
-                  type="email"
+                  placeholder="Salary"
+                  type="number"
+                  min={1}
+                  {...register("salary")}
                 />
+                <span>{errors.salary?.message}</span>
               </div>
               <div className="flex flex-col gap-2 text-gray-400">
-                <label htmlFor="email">Skills</label>
+                <label htmlFor="currency">Currency</label>
                 <input
-                  id="email"
+                  id="currency"
                   className="form-input"
-                  placeholder="Type your email address"
-                  type="email"
+                  placeholder="Currency"
+                  type="text"
+                  {...register("currency")}
                 />
+                <span>{errors.currency?.message}</span>
+              </div>
+              <div className="flex flex-col gap-2 text-gray-400">
+                <label htmlFor="skills">Skills</label>
+                <input
+                  id="skills"
+                  className="form-input"
+                  placeholder="Type skills of offer"
+                  type="text"
+                  {...register("skills")}
+                />
+                <span>{errors.skills?.message}</span>
+              </div>
+              <div className="flex flex-col gap-2 text-gray-400">
+                <label htmlFor="location">Location</label>
+                <input
+                  id="location"
+                  className="form-input"
+                  placeholder="Type location"
+                  type="text"
+                  {...register("location")}
+                />
+                <span>{errors.location?.message}</span>
               </div>
               <button className={"bg-primary w-full rounded-xl py-2 mt-2"}>
                 Add

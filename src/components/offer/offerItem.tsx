@@ -17,7 +17,7 @@ export const OfferItem = ({
     <>
       <div
         onClick={() => setIsOpen(!isOpen)}
-        className={`flex px-4 justify-between bg-neutral-700 w-3/4 mx-auto cursor-pointer ${
+        className={`flex px-4 justify-between bg-neutral-700 md:w-3/4 mx-auto cursor-pointer ${
           !isOpen && "my-4 py-2 rounded-xl"
         } pt-2 pb-2 items-center text-text rounded-t-2xl`}
       >
@@ -43,11 +43,12 @@ export const OfferItem = ({
       {isOpen && (
         <section
           className={
-            "bg-neutral-700 mx-auto w-3/4 px-4  pb-4 flex flex-col gap-2 text-text text-lg mb-4 rounded-b-2xl transition-all duration-150"
+            "bg-neutral-700 mx-auto md:w-3/4 px-4  pb-4 flex flex-col gap-2 text-text text-lg mb-4 rounded-b-2xl transition-all duration-150"
           }
         >
-          <p className={"text-2xl"}>Description</p>
-          <hr />
+          <hr className="border-gray-400 my-2" />
+          <p className={"text-2xl font-bold"}>Description</p>
+          <hr className="border-gray-400 mt-2" />
           <p>{description}</p>
         </section>
       )}

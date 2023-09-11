@@ -34,7 +34,7 @@ export const SignIn = () => {
     <main className="w-screen h-screen bg-background flex justify-center items-center text-text">
       <div className="w-96  pb-6 bg-neutral-800 rounded-xl">
         <h1 className="text-center mt-12 text-2xl font-medium">Hello!</h1>
-        <p className="text-center text-gray-400 my-2 mx-auto">
+        <p className="text-center text-gray-400 my-2 mx-auto ">
           Sign in or sign up to continue
         </p>
         <form

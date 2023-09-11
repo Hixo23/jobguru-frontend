@@ -28,7 +28,23 @@ export const SignUp = () => {
   });
 
   const onSubmit: SubmitHandler<ValidationSchema> = (data) => {
-    console.log(data);
+    fetch("http://localhost:3000/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify({
+        name: data.username,
+        password: data.password,
+        email: data.email,
+      }),
+  mode: "cors"
+    })
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((data) => console.log(data));
   };
   return (
     <main className="w-screen h-screen bg-background flex justify-center items-center text-text">
