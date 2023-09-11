@@ -21,6 +21,12 @@ export const NewOfferModal = ({
 
     document.addEventListener("mousedown", closeMenu);
 
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+
     return () => document.removeEventListener("mousedown", closeMenu);
   }, [isOpen, setIsOpen]);
 
@@ -69,7 +75,7 @@ export const NewOfferModal = ({
         title: data.title,
         company: data.company,
         description: data.description,
-        skills: data.skills.split(" "),
+        skills: data.skills.split(" ").filter((val) => val !== ""),
         salary: +data.salary,
         currency: data.currency,
         location: data.location,
@@ -85,17 +91,19 @@ export const NewOfferModal = ({
       {isOpen && (
         <div
           className={
-            "absolute top-0 left-0 flex justify-center items-center w-screen h-screen bg-black/70"
+            "absolute top-0 left-0 flex justify-center items-center w-screen h-screen bg-black/70 z-20 md:p-0"
           }
         >
           <dialog
             ref={modalRef}
             open
             className={
-              "text-text px-4 bg-neutral-800 flex flex-col items-center py-4 gap-4 rounded-xl"
+              "text-text px-4 bg-neutral-800 flex flex-col items-center py-4  gap-2 md:gap-4 h-96 md:h-auto rounded-xl overflow-scroll"
             }
           >
-            <p className={"text-xl font-bold"}>Add new job offer!</p>
+            <p className={"text-xl font-bold mt-4 md:mt-0"}>
+              Add new job offer!
+            </p>
             <form
               onSubmit={handleSubmit(onSubmit)}
               className={"flex flex-col gap-4 pb-4"}
