@@ -1,7 +1,6 @@
 "use client";
 import { Header } from "@/components/header/Header";
-import { SingleOfferType } from "@/data /data";
-import { OfferItem } from "@/components/offer/offerItem";
+import { OfferItem, TOffer } from "@/components/offer/offerItem";
 import { useState } from "react";
 import { NewOfferModal } from "@/components/modals/NewOfferModal";
 import { useQuery } from "react-query";
@@ -26,10 +25,9 @@ export default function Home() {
       <Header />
       <button onClick={() => setIsOpen(true)}>Open modal</button>
       <div className="p-4">
-        {offerFetch.data &&
-          offerFetch.data?.map((offer: SingleOfferType) => (
-            <OfferItem key={offer.id} {...offer} />
-          ))}
+        {offerFetch.data?.map((offer: TOffer, i: number) => (
+          <OfferItem key={i} {...offer} />
+        ))}
       </div>
 
       <div>{offerFetch.data?.description}</div>
